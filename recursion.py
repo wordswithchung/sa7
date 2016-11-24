@@ -9,23 +9,7 @@ RECURSION
 2. Why is it necessary to have a base case?
 > It's important to have a base case so Python knows when to stop...
 recursing? recursioning? Without a base case, the likely scenario is that
-one will encounter "RuntimeError: maximum recursion depth exceeded". For
-example:
-
-No, don't do this:
-
-    def add_myself_forever(a):
-
-        print a
-        add_myself_forever(a + a)
-
-Better:
-
-    def add_myself(a):
-
-        if a < 5: # finite stopping point (aka base case)
-            add_myself(a + 1)
-            print a
+one will encounter "RuntimeError: maximum recursion depth exceeded".
 
 GRAPHS
 
@@ -145,11 +129,16 @@ def num_nodes(tree):
         6
     """
 
-    if not tree.children:
-        return
+    # the fundamental task is to count a node, and keep track of its countiness
+    # base case is when all nodes are accounted for
 
-    return 1 + len(tree.children) + num_nodes(tree.children[0])
+    num = 1
 
+    for child in tree.children:
+        num += 1 + len(child.children)
+        num_nodes(child)
+
+    return num
 
 
 #####################################################################
